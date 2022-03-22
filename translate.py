@@ -2,6 +2,7 @@
 
 import sys
 
+#works
 def translate_sequence(rna_sequence, genetic_code):
     """Translates a sequence of RNA into a sequence of amino acids.
 
@@ -28,55 +29,29 @@ def translate_sequence(rna_sequence, genetic_code):
     str
         A string of the translated amino acids.
     """
-    
-"""psuedo code
-step1
-get sequence
-assign input to variable
-test character type and make sure its a string - not case sensitive
-read it in threes and store as variable 
+    rna_sequence = rna_sequence.upper()
+    if len(rna_sequence) < 3 : 
+        return ""
+        sys.exit()
+    else : 
+        while len(rna_sequence) % 3 !=0:
+            rna_sequence = rna_sequence[:-1]
+        codons = []
+        for i in range(0, len(rna_sequence), 3):
+            codons.append(rna_sequence[i:i+3])
 
-    step2
-    make a dic of all the codons
-    """
-s = input("Please enter your sequence\n")
+        aminos = []
+        for k in codons:
+            aminos.append(genetic_code[k])
+        peptide = ''.join(aminos)
+    if peptide[0] == "*" :
+        return ""
+    else:
+        partitioned_stop = peptide.partition('*')
+        final_pep = partitioned_stop[0]
+        return(final_pep)
 
-RNA_codon_table = {
-# U
-'UUU': 'Phe', 'UCU': 'Ser', 'UAU': 'Tyr', 'UGU': 'Cys', # UxU
-'UUC': 'Phe', 'UCC': 'Ser', 'UAC': 'Tyr', 'UGC': 'Cys', # UxC
-'UUA': 'Leu', 'UCA': 'Ser', 'UAA': '---', 'UGA': '---', # UxA
-'UUG': 'Leu', 'UCG': 'Ser', 'UAG': '---', 'UGG': 'Trp', # UxG
-
-# C
-'CUU': 'Leu', 'CCU': 'Pro', 'CAU': 'His', 'CGU': 'Arg', # CxU
-'CUC': 'Leu', 'CCC': 'Pro', 'CAC': 'His', 'CGC': 'Arg', # CxC
-'CUA': 'Leu', 'CCA': 'Pro', 'CAA': 'Gln', 'CGA': 'Arg', # CxA
-'CUG': 'Leu', 'CCG': 'Pro', 'CAG': 'Gln', 'CGG': 'Arg', # CxG
-
-# A
-'AUU': 'Ile', 'ACU': 'Thr', 'AAU': 'Asn', 'AGU': 'Ser', # AxU
-'AUC': 'Ile', 'ACC': 'Thr', 'AAC': 'Asn', 'AGC': 'Ser', # AxC
-'AUA': 'Ile', 'ACA': 'Thr', 'AAA': 'Lys', 'AGA': 'Arg', # AxA
-'AUG': 'Met', 'ACG': 'Thr', 'AAG': 'Lys', 'AGG': 'Arg', # AxG
-
-# G
-'GUU': 'Val', 'GCU': 'Ala', 'GAU': 'Asp', 'GGU': 'Gly', # GxU
-'GUC': 'Val', 'GCC': 'Ala', 'GAC': 'Asp', 'GGC': 'Gly', # GxC
-'GUA': 'Val', 'GCA': 'Ala', 'GAA': 'Glu', 'GGA': 'Gly', # GxA
-'GUG': 'Val', 'GCG': 'Ala', 'GAG': 'Glu', 'GGG': 'Gly'  # GxG
-}
-
-
-singleletter = {'Cys': 'C', 'Asp': 'D', 'Ser': 'S', 'Gln': 'Q', 'Lys': 'K',
-'Trp': 'W', 'Asn': 'N', 'Pro': 'P', 'Thr': 'T', 'Phe': 'F', 'Ala': 'A',
-'Gly': 'G', 'Ile': 'I', 'Leu': 'L', 'His': 'H', 'Arg': 'R', 'Met': 'M',
-'Val': 'V', 'Glu': 'E', 'Tyr': 'Y', '---': '*'}
-
-print([singleletter[RNA_codon_table[s[i:i+3]]] for i in range(0, len(s),3)])
-
-
-
+# does not work
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
 
@@ -110,6 +85,7 @@ def get_all_translations(rna_sequence, genetic_code):
     """
     pass
 
+#works
 def get_reverse(sequence):
     """Reverse orientation of `sequence`.
 
@@ -122,8 +98,15 @@ def get_reverse(sequence):
     >>> get_reverse('AUGC')
     'CGUA'
     """
-    pass
+    reverse = sequence[::-1]
+    reverse = reverse.upper()
+    reverse = str(reverse)
+    if len(reverse) > 0:
+        return reverse
+    else:
+        return("")
 
+#works
 def get_complement(sequence):
     """Get the complement of a `sequence` of nucleotides.
 
@@ -136,8 +119,21 @@ def get_complement(sequence):
     >>> get_complement('AUGC')
     'UACG'
     """
-    pass
+    sequence = sequence.upper()
+    comp = []
+    for i in sequence:
+        if i == "U":
+            comp.append("A")
+        if i == "A":
+            comp.append("U")
+        if i == "G":
+            comp.append("C")
+        if i == "C":
+            comp.append("G")
 
+    return ''.join(comp)    
+
+#works
 def reverse_and_complement(sequence):
     """Get the reversed and complemented form of a `sequence` of nucleotides.
 
@@ -151,8 +147,11 @@ def reverse_and_complement(sequence):
     >>> reverse_and_complement('AUGC')
     'GCAU'
     """
-    pass
+    comp = get_complement(sequence)
+    rev_comp = comp[::-1]
+    return rev_comp
 
+#does not work
 def get_longest_peptide(rna_sequence, genetic_code):
     """Get the longest peptide encoded by an RNA sequence.
 
