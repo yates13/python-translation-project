@@ -44,6 +44,7 @@ def translate_sequence(rna_sequence, genetic_code):
         for k in codons:
             aminos.append(genetic_code[k])
         peptide = ''.join(aminos)
+    translate_sequence.var = peptide
     if peptide[0] == "*" :
         return ""
     else:
@@ -51,7 +52,7 @@ def translate_sequence(rna_sequence, genetic_code):
         final_pep = partitioned_stop[0]
         return(final_pep)
 
-# does not work
+#work
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
 
@@ -83,7 +84,25 @@ def get_all_translations(rna_sequence, genetic_code):
         A list of strings; each string is an sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+    import re
+
+    pep_frames = []
+    frame_0 = rna_sequence
+    frame_1 = rna_sequence[1::]
+    frame_2 = rna_sequence[2::]
+    
+    pattern = r'M[\w]*'
+    object = re.compile(pattern, re.IGNORECASE)
+
+    for i in range(3):
+        frame = eval("frame_%s" % i)
+        frame =frame.upper()
+        trans = translate_sequence(frame, genetic_code)
+        pep = object.findall(translate_sequence.var)
+        str_pep = ''.join(pep)
+        if len(str_pep) >0:
+            pep_frames.append(str_pep)
+    return(pep_frames)
 
 #works
 def get_reverse(sequence):
@@ -179,8 +198,19 @@ def get_longest_peptide(rna_sequence, genetic_code):
         A string of the longest sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
-
+    rev_comp_seq = reverse_and_complement(rna_sequence)
+    rev = get_all_translations(rev_comp_seq, genetic_code)
+    nor = get_all_translations(rna_sequence, genetic_code)
+    tran = []
+    for i in rev:
+        tran.append(i)
+    for i in nor:
+        tran.append(i)
+    long = max(tran,key=len,default=0) 
+    if long == 0:
+        return('')
+    else:
+        return(long)
 
 if __name__ == '__main__':
     genetic_code = {'GUC': 'V', 'ACC': 'T', 'GUA': 'V', 'GUG': 'V', 'ACU': 'T', 'AAC': 'N', 'CCU': 'P', 'UGG': 'W', 'AGC': 'S', 'AUC': 'I', 'CAU': 'H', 'AAU': 'N', 'AGU': 'S', 'GUU': 'V', 'CAC': 'H', 'ACG': 'T', 'CCG': 'P', 'CCA': 'P', 'ACA': 'T', 'CCC': 'P', 'UGU': 'C', 'GGU': 'G', 'UCU': 'S', 'GCG': 'A', 'UGC': 'C', 'CAG': 'Q', 'GAU': 'D', 'UAU': 'Y', 'CGG': 'R', 'UCG': 'S', 'AGG': 'R', 'GGG': 'G', 'UCC': 'S', 'UCA': 'S', 'UAA': '*', 'GGA': 'G', 'UAC': 'Y', 'GAC': 'D', 'UAG': '*', 'AUA': 'I', 'GCA': 'A', 'CUU': 'L', 'GGC': 'G', 'AUG': 'M', 'CUG': 'L', 'GAG': 'E', 'CUC': 'L', 'AGA': 'R', 'CUA': 'L', 'GCC': 'A', 'AAA': 'K', 'AAG': 'K', 'CAA': 'Q', 'UUU': 'F', 'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'GCU': 'A', 'GAA': 'E', 'AUU': 'I', 'UUG': 'L', 'UUA': 'L', 'UGA': '*', 'UUC': 'F'}
