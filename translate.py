@@ -2,7 +2,6 @@
 
 import sys
 
-#works
 def translate_sequence(rna_sequence, genetic_code):
     """Translates a sequence of RNA into a sequence of amino acids.
 
@@ -52,7 +51,6 @@ def translate_sequence(rna_sequence, genetic_code):
         final_pep = partitioned_stop[0]
         return(final_pep)
 
-#work
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
 
@@ -90,7 +88,6 @@ def get_all_translations(rna_sequence, genetic_code):
     frame_0 = rna_sequence
     frame_1 = rna_sequence[1::]
     frame_2 = rna_sequence[2::]
-    
     pattern = r'M[\w]*'
     object = re.compile(pattern, re.IGNORECASE)
 
@@ -104,7 +101,6 @@ def get_all_translations(rna_sequence, genetic_code):
             pep_frames.append(str_pep)
     return(pep_frames)
 
-#works
 def get_reverse(sequence):
     """Reverse orientation of `sequence`.
 
@@ -125,7 +121,6 @@ def get_reverse(sequence):
     else:
         return("")
 
-#works
 def get_complement(sequence):
     """Get the complement of a `sequence` of nucleotides.
 
@@ -152,7 +147,6 @@ def get_complement(sequence):
 
     return ''.join(comp)    
 
-#works
 def reverse_and_complement(sequence):
     """Get the reversed and complemented form of a `sequence` of nucleotides.
 
@@ -170,7 +164,6 @@ def reverse_and_complement(sequence):
     rev_comp = comp[::-1]
     return rev_comp
 
-#does not work
 def get_longest_peptide(rna_sequence, genetic_code):
     """Get the longest peptide encoded by an RNA sequence.
 
